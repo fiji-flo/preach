@@ -2,7 +2,7 @@ use std::env;
 use std::vec::Vec;
 mod graphreader;
 mod graph;
-mod bfs;
+mod dfs;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -10,7 +10,7 @@ fn main() {
     if arg.is_some() {
         let g = graphreader::new_from_file(&(arg.unwrap()));
         assert!(g.is_some());
-        bfs::bfs(g.unwrap(), 0, |x: usize| print!("{} ", x));
+        dfs::dfs(&g.unwrap(), 0, &(|x: usize| print!("{} ", x)));
         println!("done!");
     }
 }
