@@ -1,6 +1,3 @@
-//pub struct ContractionNode {
-//    pub
-//}
 pub trait GraphTraversal {
     fn bwd_edges(&self, v: usize) -> &Vec<usize>;
     fn fwd_edges(&self, v: usize) -> &Vec<usize>;
@@ -52,4 +49,22 @@ impl Graph {
         }
         self
     }
+}
+
+#[test]
+fn simple_graph() {
+    let mut g = Graph::new();
+    g.push_edgelist_fwd(vec![2,1]);
+    g.push_edgelist_fwd(vec![3,4]);
+    g.push_edgelist_fwd(vec![]);
+    g.push_edgelist_fwd(vec![]);
+    g.push_edgelist_fwd(vec![]);
+    g.push_edgelist_bwd(vec![]);
+    g.push_edgelist_bwd(vec![0]);
+    g.push_edgelist_bwd(vec![0]);
+    g.push_edgelist_bwd(vec![1]);
+    g.push_edgelist_bwd(vec![1]);
+    g.sort_fwd();
+    g.sort_bwd();
+//    assert_eq!(g.e_fwd[0].iter().fold(true, |acc, &x| acc && x), true);
 }
