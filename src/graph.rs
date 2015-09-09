@@ -49,6 +49,9 @@ impl Graph {
         }
         self
     }
+    pub fn len(&self) -> usize {
+        self.e_fwd.len()
+    }
 }
 
 #[test]
