@@ -1,6 +1,7 @@
 pub trait GraphTraversal {
     fn bwd_edges(&self, v: usize) -> &Vec<usize>;
     fn fwd_edges(&self, v: usize) -> &Vec<usize>;
+    fn sources(&self) -> Vec<usize>;
 }
 
 pub struct Graph {
@@ -14,6 +15,9 @@ impl GraphTraversal for Graph {
     }
     fn fwd_edges(&self, v: usize) -> &Vec<usize> {
         self.e_fwd.get(v).unwrap()
+    }
+    fn sources(&self) -> Vec<usize> {
+        self.e_bwd.iter().enumerate().filter_map(|(i, edges)| { if edges.len() == 0 { Some(i) } else { None } } ).collect::<Vec<usize>>()
     }
 }
 
