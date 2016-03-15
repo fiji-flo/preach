@@ -13,7 +13,7 @@ fn main() {
         let g = graphreader::new_from_file(&(arg.unwrap())).unwrap();
         let mut marker = mark::TMarker::new(g.len());
         //dfs::dfs(&g, 0, &(Box::new(|x: usize| print!("{} ", x))), &mut marker);
-        dfs::full_dfs(&g, 0, &(Box::new(|x: usize| print!("{} ", x))), &mut marker);
+        dfs::full_dfs(&g, &mut (Box::new(|x: usize| print!("{} ->", x))), &mut marker);
         //bfs::bfs(&g, 0, &(|x: usize| print!("{} ", x)), &mut marker);
         println!("done!");
     }
