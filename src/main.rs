@@ -5,6 +5,7 @@ mod graph;
 mod dfs;
 mod bfs;
 mod mark;
+mod constructiongraph;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
