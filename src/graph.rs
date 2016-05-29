@@ -33,25 +33,10 @@ impl Graph {
     pub fn new() -> Graph {
         Graph { e_fwd: Vec::new(), e_bwd: Vec::new() }
     }
-    pub fn new_with_edge_bwd(n: usize) -> Graph {
-        Graph { e_fwd: Vec::new(), e_bwd: vec!(Vec::new(); n) }
+    pub fn new_with_edges(e_fwd: Vec<Vec<usize>>, e_bwd: Vec<Vec<usize>>) -> Graph {
+        Graph { e_fwd: e_fwd, e_bwd: e_bwd }
     }
-    pub fn push_edge_fwd(&mut self, u: usize, v: usize) -> &Graph {
-        self.e_fwd[u].push(v);
-        self
-    }
-    pub fn push_edgelist_fwd(&mut self, v: Vec<usize>) -> &Graph {
-        self.e_fwd.push(v);
-        self
-    }
-    pub fn push_edge_bwd(&mut self, u: usize, v: usize) -> &Graph {
-        self.e_bwd[u].push(v);
-        self
-    }
-    pub fn push_edgelist_bwd(&mut self, v: Vec<usize>) -> &Graph {
-        self.e_bwd.push(v);
-        self
-    }
+
     pub fn sort_fwd(&mut self) -> &Graph {
         for mut s in &mut self.e_fwd {
             s.sort();
@@ -71,18 +56,4 @@ impl Graph {
 
 #[test]
 fn simple_graph() {
-    let mut g = Graph::new();
-    g.push_edgelist_fwd(vec![2,1]);
-    g.push_edgelist_fwd(vec![3,4]);
-    g.push_edgelist_fwd(vec![]);
-    g.push_edgelist_fwd(vec![]);
-    g.push_edgelist_fwd(vec![]);
-    g.push_edgelist_bwd(vec![]);
-    g.push_edgelist_bwd(vec![0]);
-    g.push_edgelist_bwd(vec![0]);
-    g.push_edgelist_bwd(vec![1]);
-    g.push_edgelist_bwd(vec![1]);
-    g.sort_fwd();
-    g.sort_bwd();
-//    assert_eq!(g.e_fwd[0].iter().fold(true, |acc, &x| acc && x), true);
 }
