@@ -33,6 +33,9 @@ impl Graph {
     pub fn new() -> Graph {
         Graph { e_fwd: Vec::new(), e_bwd: Vec::new() }
     }
+    pub fn new_with_edge_bwd(n: usize) -> Graph {
+        Graph { e_fwd: Vec::new(), e_bwd: vec!(Vec::new(); n) }
+    }
     pub fn push_edge_fwd(&mut self, u: usize, v: usize) -> &Graph {
         self.e_fwd[u].push(v);
         self

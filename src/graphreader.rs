@@ -8,42 +8,27 @@ pub fn new_from_file(filename: &String) -> Option<::graph::Graph> {
         Ok(f) => f,
         Err(f) => panic!(f.to_string())
     };
-    let mut reader = BufReader::new(f);
-    let buffer = &mut String::new();
-    assert!(reader.read_line(buffer).is_ok());
-    assert!(buffer.trim() == "graph_for_greach");
-    buffer.clear();
 
-    assert!(reader.read_line(buffer).is_ok());
-    n = buffer.trim().parse::<usize>().unwrap();
-    buffer.clear();
+    let mut reader = BufReader::new(f).lines().map(|l| { l.ok().expect("failed to read first line") });
+    reader.next().map(|l| { assert!(l.trim() == "graph_for_greach") });
 
-    let mut g = ::graph::Graph::new();
+    n = reader.next().unwrap().split(" ").next().unwrap().parse::<u32>().unwrap() as usize;
 
-    for _ in 0..n {
-        g.push_edgelist_bwd(Vec::new());
-    }
-    for i in 0..n {
-        assert!(reader.read_line(buffer).is_ok());
-        {
-            let s = buffer.trim_left_matches(|c: char| c.is_numeric() || c == ':')
-                .trim_right_matches(|c: char| c == '\n' || c == '#')
-                .trim();
-            let v: Vec<usize> = match s {
-                "" => Vec::new(),
-                _ => s.split(" ")
-                    .map(|x| x.parse::<usize>().unwrap())
-                    .collect()
-            };
-            m += v.len();
-            for s in &v {
-                g.push_edge_bwd(*s, i);
-            }
+    let mut g = ::graph::Graph::new_with_edge_bwd(n);
 
-            g.push_edgelist_fwd(v);
+    reader.map(|l| {
+        let mut split = l.split(" ");
+        let i: usize = split.next().unwrap().trim_matches(':').parse().unwrap();
+        let  edges = split.take_while(|c| { c.trim() != "#"}).map(|c| {
+            c.parse().ok().expect(&format!("failed to parse {}", c))
+        }).collect::<Vec<usize>>();
+        m += edges.len();
+        for s in &edges {
+            g.push_edge_bwd(*s, i);
         }
-        buffer.clear();
-    }
+
+        g.push_edgelist_fwd(edges);
+    }).collect::<Vec<_>>();
 
     g.sort_bwd();
 

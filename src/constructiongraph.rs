@@ -24,9 +24,10 @@ struct ConstructionGraph {
     num_sinks: usize,
     num_sources: usize,
 }
-
+/*
 pub fn constuct(gt: &::graph::Graph, marker: &mut ::mark::Marker) -> ConstructionGraph {
     let cg = ConstructionGraph {
     };
     cg
 }
+*/
