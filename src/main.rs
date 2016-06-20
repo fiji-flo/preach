@@ -20,5 +20,6 @@ fn main() {
         println!("doint a full bfs:");
         bfs::full_bfs(&g, &mut (Box::new(|x: usize| print!("{} ->", x))), &mut marker);
         println!("done!");
+        let cg = constructiongraph::ConstructionGraph::new_cg_from_file(&(arg.unwrap()));
     }
 }

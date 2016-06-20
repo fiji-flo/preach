@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 
-pub fn edges_from_file(filename: &String) -> Option<(usize, Vec<(usize, usize)>)> {
+pub fn edges_from_file(filename: &String) -> Option<(usize, usize, Vec<(usize, usize)>)> {
     let f = match File::open(filename) {
         Ok(f) => f,
         Err(f) => panic!(f.to_string())
@@ -20,18 +20,16 @@ pub fn edges_from_file(filename: &String) -> Option<(usize, Vec<(usize, usize)>)
         }).collect::<Vec<(usize, usize)>>()
     }).flat_map(|l| { l }).collect::<Vec<(usize, usize)>>();
 
-    Some((n, edges))
+    Some((n, edges.len(), edges))
 }
 
 pub fn new_from_file(filename: &String) -> Option<::graph::Graph> {
-    let (n, edges) = edges_from_file(filename).unwrap_or((0, Vec::new()));
-    let mut m: usize = 0;
+    let (n, m, edges) = edges_from_file(filename).unwrap_or((0, 0, Vec::new()));
     let mut e_fwd = vec!(Vec::new(); n);
     let mut e_bwd = vec!(Vec::new(); n);
     edges.iter().map(|&(s, t)| {
         e_fwd[s].push(t);
         e_bwd[t].push(s);
-        m += 1;
     }).collect::<Vec<_>>();
     let mut g = ::graph::Graph::new_with_edges(e_fwd, e_bwd);
     g.sort_bwd();
